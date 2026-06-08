@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\rick\\Documents\\LearningAndPractice\\ClaudeGuided\\Csharp\\catchingup\\phase1\\catchingup.csproj": {}
+    "C:\\Users\\rick\\Documents\\LearningAndPractice\\ClaudeGuided\\Csharp\\catchingup\\catchingup.csproj": {}
   },
   "projects": {
-    "c:\\Users\\rick\\Documents\\LearningAndPractice\\ClaudeGuided\\Csharp\\catchingup\\phase1\\catchingup.csproj": {
+    "C:\\Users\\rick\\Documents\\LearningAndPractice\\ClaudeGuided\\Csharp\\catchingup\\catchingup.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\rick\\Documents\\LearningAndPractice\\ClaudeGuided\\Csharp\\catchingup\\phase1\\catchingup.csproj",
+        "projectUniqueName": "C:\\Users\\rick\\Documents\\LearningAndPractice\\ClaudeGuided\\Csharp\\catchingup\\catchingup.csproj",
         "projectName": "catchingup",
-        "projectPath": "c:\\Users\\rick\\Documents\\LearningAndPractice\\ClaudeGuided\\Csharp\\catchingup\\phase1\\catchingup.csproj",
+        "projectPath": "C:\\Users\\rick\\Documents\\LearningAndPractice\\ClaudeGuided\\Csharp\\catchingup\\catchingup.csproj",
         "packagesPath": "C:\\Users\\rick\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\rick\\Documents\\LearningAndPractice\\ClaudeGuided\\Csharp\\catchingup\\phase1\\obj\\",
+        "outputPath": "C:\\Users\\rick\\Documents\\LearningAndPractice\\ClaudeGuided\\Csharp\\catchingup\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
