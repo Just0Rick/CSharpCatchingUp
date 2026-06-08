@@ -1,0 +1,14 @@
+C:\Users\rick\Documents\LearningAndPractice\ClaudeGuided\Csharp\catchingup\phase1\bin\Debug\net10.0\phase1.exe
+C:\Users\rick\Documents\LearningAndPractice\ClaudeGuided\Csharp\catchingup\phase1\bin\Debug\net10.0\phase1.deps.json
+C:\Users\rick\Documents\LearningAndPractice\ClaudeGuided\Csharp\catchingup\phase1\bin\Debug\net10.0\phase1.runtimeconfig.json
+C:\Users\rick\Documents\LearningAndPractice\ClaudeGuided\Csharp\catchingup\phase1\bin\Debug\net10.0\phase1.dll
+C:\Users\rick\Documents\LearningAndPractice\ClaudeGuided\Csharp\catchingup\phase1\bin\Debug\net10.0\phase1.pdb
+C:\Users\rick\Documents\LearningAndPractice\ClaudeGuided\Csharp\catchingup\phase1\obj\Debug\net10.0\phase1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rick\Documents\LearningAndPractice\ClaudeGuided\Csharp\catchingup\phase1\obj\Debug\net10.0\phase1.AssemblyInfoInputs.cache
+C:\Users\rick\Documents\LearningAndPractice\ClaudeGuided\Csharp\catchingup\phase1\obj\Debug\net10.0\phase1.AssemblyInfo.cs
+C:\Users\rick\Documents\LearningAndPractice\ClaudeGuided\Csharp\catchingup\phase1\obj\Debug\net10.0\phase1.csproj.CoreCompileInputs.cache
+C:\Users\rick\Documents\LearningAndPractice\ClaudeGuided\Csharp\catchingup\phase1\obj\Debug\net10.0\phase1.dll
+C:\Users\rick\Documents\LearningAndPractice\ClaudeGuided\Csharp\catchingup\phase1\obj\Debug\net10.0\refint\phase1.dll
+C:\Users\rick\Documents\LearningAndPractice\ClaudeGuided\Csharp\catchingup\phase1\obj\Debug\net10.0\phase1.pdb
+C:\Users\rick\Documents\LearningAndPractice\ClaudeGuided\Csharp\catchingup\phase1\obj\Debug\net10.0\phase1.genruntimeconfig.cache
+C:\Users\rick\Documents\LearningAndPractice\ClaudeGuided\Csharp\catchingup\phase1\obj\Debug\net10.0\ref\phase1.dll
