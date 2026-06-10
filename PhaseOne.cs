@@ -1,8 +1,23 @@
+using System.Linq;
+
 namespace CardGame.PhaseOne
 {
     public enum SuitType { Diamonds, Spades, Hearts, Clubs }
     public record struct Card(SuitType Suit, int Rank);
     public record class Player(string name, IReadOnlyList<Card> Hand);
+    public record class Deck(IReadOnlyList<Card> Cards)
+    {
+        public Card? Draw()
+        {
+            return Cards.FirstOrDefault();
+        }
+
+        public Deck WithoutTop()
+        {
+            return this with { Cards = Cards.Skip(1).ToList()};
+        }
+    }
+    public record class GameState(Player Player, Deck Deck, string? LastMessage);
 
     public class Game
     {
@@ -43,5 +58,22 @@ namespace CardGame.PhaseOne
         {
             { Suit: var suit, Rank: var rank } => $"{RankName(rank)} of {suit}"
         };
+
+        public GameState DealerTurn(GameState game)
+        {
+            var newState = game with { LastMessage = null};
+            while(newState.Player.Hand.Sum(CardValue) < 17)
+            {
+                Card? drawnCard = newState.Deck.Draw();
+                if(drawnCard == null) break;
+                newState = newState with {
+                    Deck = newState.Deck.WithoutTop(), 
+                    Player = newState.Player with { 
+                        Hand = [..newState.Player.Hand, drawnCard.Value]
+                    }
+                };
+            }
+            return newState with { LastMessage = HandResult(newState.Player.Hand)};
+        }
     }
 }
