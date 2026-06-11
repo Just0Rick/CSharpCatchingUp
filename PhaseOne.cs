@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace CardGame.PhaseOne
 {
@@ -74,6 +75,19 @@ namespace CardGame.PhaseOne
                 };
             }
             return newState with { LastMessage = HandResult(newState.Player.Hand)};
+        }
+
+        public async IAsyncEnumerable<Card> DealCards([EnumeratorCancellation] CancellationToken ct , Deck deck, int count)
+        {
+            for(int i = 0; i < count; i++)
+            {
+                var card = deck.Draw();
+                if (card == null)
+                    yield break;
+                ct.ThrowIfCancellationRequested();
+                await Task.Delay(200);
+                yield return card.Value;
+            }
         }
     }
 }
