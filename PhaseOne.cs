@@ -77,17 +77,28 @@ namespace CardGame.PhaseOne
             return newState with { LastMessage = HandResult(newState.Player.Hand)};
         }
 
-        public async IAsyncEnumerable<Card> DealCards([EnumeratorCancellation] CancellationToken ct , Deck deck, int count)
+        public async IAsyncEnumerable<Card> DealCards(Deck deck, int count, [EnumeratorCancellation] CancellationToken ct )
         {
             for(int i = 0; i < count; i++)
             {
                 var card = deck.Draw();
+                deck = deck.WithoutTop();
                 if (card == null)
                     yield break;
                 ct.ThrowIfCancellationRequested();
-                await Task.Delay(200);
+                await Task.Delay(200, ct);
                 yield return card.Value;
             }
+        }
+
+        public async Task<IReadOnlyList<Card>> DrawHandAsync(Deck deck, int count, CancellationToken ct = default)
+        {
+            var hand = new List<Card>();
+            await foreach(var card in DealCards(deck, count, ct))
+            {
+                hand.Add(card);
+            }
+            return hand;
         }
     }
 }

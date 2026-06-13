@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 
 // Current phase
 using CardGame.PhaseOne;
@@ -8,7 +9,7 @@ namespace CardGame
 {
     public static class Program
     {
-        public static void Main(string[] args)
+        public static  async Task Main(string[] args)
         {
             var game = new Game();
             var rick = new Player("Rick", new List<Card>());
@@ -30,6 +31,17 @@ namespace CardGame
             Console.WriteLine();
             var gameState = new GameState(rick, new Deck(deckList.ToImmutableList()), null);
             Console.WriteLine($"Last message: {game.DealerTurn(gameState).LastMessage}");
+            var ct = new CancellationTokenSource();
+            ct.CancelAfter(2000);
+            try
+            {
+                var newHand = await game.DrawHandAsync(gameState.Deck, 5, ct.Token);
+                Array.ForEach(newHand.ToArray(), (c) => Console.WriteLine(game.Describe(c)));
+            } catch (OperationCanceledException)
+            {
+                Console.WriteLine("Timed out while drawing hand");
+            }
+            
         }
     }
 }
