@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace CardGame.PhaseOne
 {
@@ -99,6 +100,44 @@ namespace CardGame.PhaseOne
                 hand.Add(card);
             }
             return hand;
+        }
+
+        public List<Card> BuildDeck()
+        {
+            List<Card> deck = new List<Card>(capacity: 52);
+            int[] ranks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+            Span<Card> deckSpan = CollectionsMarshal.AsSpan(deck);
+            for(byte i = 0; i < 52; i++)
+            {
+                deckSpan[i] = new Card((SuitType)(i / 13), ranks[i % 13]);
+            }
+            return deck;
+        }
+
+        public List<Card> Shuffle(List<Card> currentDeck)
+        {
+            List<Card> newDeck = new List<Card>(capacity: currentDeck.Count);
+            Span<Card> deckSpan = CollectionsMarshal.AsSpan(newDeck);
+            var rand = new Random();
+            for(int i = currentDeck.Count - 1; i > 0; i--)
+            {
+                var selectedIdx = rand.NextInt64(0, i + 1);
+                deckSpan[i] = currentDeck[(int)selectedIdx];
+            }
+            return newDeck;
+        }
+
+        public List<IReadOnlyList<Card>> DealHands(List<Card> deck, int playerCount, int cardsEach)
+        {
+            var hands = new List<IReadOnlyList<Card>>(capacity: playerCount);
+            Span<IReadOnlyList<Card>> handsSpan = CollectionsMarshal.AsSpan(hands);
+            var currentIdx = 0;
+            for(int i = 0; i < playerCount; i++)
+            {
+                handsSpan[i] = deck[currentIdx..(currentIdx + cardsEach)];
+                currentIdx += cardsEach;
+            }
+            return hands;
         }
     }
 }
