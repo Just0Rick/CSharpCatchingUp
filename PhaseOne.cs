@@ -129,25 +129,27 @@ namespace CardGame.PhaseOne
 
         public List<Card> BuildDeck()
         {
-            List<Card> deck = new List<Card>(capacity: 52);
-            int[] ranks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-            Span<Card> deckSpan = CollectionsMarshal.AsSpan(deck);
-            for(byte i = 0; i < 52; i++)
-            {
-                deckSpan[i] = new Card((SuitType)(i / 13), ranks[i % 13]);
-            }
-            return deck;
+            static IEnumerable<Card> SuitCards(SuitType suit) =>
+                Enumerable.Range(1, 13).Select(rank => new Card(suit, rank));
+            return [
+                ..SuitCards(SuitType.Spades),
+                ..SuitCards(SuitType.Diamonds),
+                ..SuitCards(SuitType.Hearts),
+                ..SuitCards(SuitType.Clubs)
+            ];
         }
 
         public List<Card> Shuffle(List<Card> currentDeck)
         {
-            List<Card> newDeck = new List<Card>(capacity: currentDeck.Count);
+            List<Card> newDeck = [..currentDeck];
             Span<Card> deckSpan = CollectionsMarshal.AsSpan(newDeck);
             var rand = new Random();
-            for(int i = currentDeck.Count - 1; i > 0; i--)
+            for(int i = newDeck.Count - 1; i > 0; i--)
             {
-                var selectedIdx = rand.NextInt64(0, i + 1);
-                deckSpan[i] = currentDeck[(int)selectedIdx];
+                var selectedIdx = rand.Next(0, i + 1);
+                var temp = deckSpan[selectedIdx];
+                deckSpan[selectedIdx] = deckSpan[i];
+                deckSpan[i] = temp;
             }
             return newDeck;
         }
@@ -155,6 +157,7 @@ namespace CardGame.PhaseOne
         public List<IReadOnlyList<Card>> DealHands(List<Card> deck, int playerCount, int cardsEach)
         {
             var hands = new List<IReadOnlyList<Card>>(capacity: playerCount);
+            CollectionsMarshal.SetCount(hands, playerCount);
             Span<IReadOnlyList<Card>> handsSpan = CollectionsMarshal.AsSpan(hands);
             var currentIdx = 0;
             for(int i = 0; i < playerCount; i++)
