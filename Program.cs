@@ -41,7 +41,12 @@ namespace CardGame
             {
                 Console.WriteLine("Timed out while drawing hand");
             }
-            
+            Array.ForEach(rick.Hand.ToArray(), (c) =>
+            {
+               Span<char> serializedCard = stackalloc char[12];
+               var writtenLength = game.SerializeCard(c, serializedCard);
+               Console.WriteLine($"SerializedCard {serializedCard}; Parsed {game.ParseCard(serializedCard[..writtenLength])}"); 
+            });
         }
     }
 }

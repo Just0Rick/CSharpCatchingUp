@@ -61,6 +61,11 @@ namespace CardGame.PhaseOne
             { Suit: var suit, Rank: var rank } => $"{RankName(rank)} of {suit}"
         };
 
+        public string BriefDescribe(Card card) => card switch
+        {
+            { Suit: var suit, Rank: var rank } => $"{suit}:{rank}"
+        };
+
         public GameState DealerTurn(GameState game)
         {
             var newState = game with { LastMessage = null};
@@ -100,6 +105,26 @@ namespace CardGame.PhaseOne
                 hand.Add(card);
             }
             return hand;
+        }
+
+        public int SerializeCard(Card card, Span<char> buffer)
+        {
+            var suit = card.Suit.ToString();
+            var rank = card.Rank.ToString();
+            int returnLength = suit.Length;
+            suit.AsSpan().CopyTo(buffer);
+            buffer[returnLength++] = ':';
+            rank.AsSpan().CopyTo(buffer[returnLength..]);
+            returnLength += rank.Length;
+            return returnLength;
+        }
+
+        public Card ParseCard(ReadOnlySpan<char> data)
+        {
+            var separatorIndex = data.IndexOf(':');
+            var suit = data[..separatorIndex];
+            var rank = int.Parse(data[(separatorIndex+1)..]);
+            return new Card(Enum.Parse<SuitType>(suit), rank);
         }
 
         public List<Card> BuildDeck()
