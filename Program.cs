@@ -1,28 +1,37 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
+﻿using CardGame.PhaseOne;
+using Microsoft.AspNetCore.Http.HttpResults;
 
-// Current phase
-using CardGame.PhaseOne;
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSingleton<Game>();
+var app = builder.Build();
 
-namespace CardGame
+app.MapGet("/", () => Results.Redirect("/game/deck"));
+
+var gameGroup = app.MapGroup("/game");
+gameGroup.MapGet("/deck", (Game game) =>
 {
-    public static class Program
+   var deck = game.Shuffle(game.BuildDeck()); 
+   return TypedResults.Ok(deck);
+});
+gameGroup.MapPost("/hand", async (Game game, List<Card> baseDeck, int cardCount, CancellationToken ct) =>
+{
+    var hand = await game.DrawHandAsync(new Deck(baseDeck), cardCount, ct);
+    return TypedResults.Ok(hand);
+});
+gameGroup.MapPost("/hand/result", (Game game, List<Card> hand) =>
+{
+    return TypedResults.Ok(game.HandResult(hand));
+});
+gameGroup.MapGet("/card/{suit}/{rank}", Results<Ok<Card>, NotFound<string>> (string suit, int rank) =>
+{
+    if (rank < 1 || rank > 13)
+        return TypedResults.NotFound("Invalid rank");
+    if (Enum.TryParse<SuitType>(suit, out var parsedSuit))
     {
-        public static  async Task Main(string[] args)
-        {
-            var game = new Game();
-            
-            var deck = game.Shuffle(game.BuildDeck());
-            var handsList = game.DealHands(deck, 4, 5);
-            handsList.ForEach(hand =>
-            {
-               Console.WriteLine("Player hand:");
-               foreach(var card in hand)
-                {
-                    Console.WriteLine(game.Describe(card));
-                }
-            });
-        }
+        return TypedResults.Ok(new Card(parsedSuit, rank));
     }
-}
+    return TypedResults.NotFound("Invalid suit");
+});
+
+
+app.Run();
